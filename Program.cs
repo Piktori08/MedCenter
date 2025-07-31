@@ -6,6 +6,9 @@ builder.Services.AddDbContext<MedCenterContext>(Options => Options.UseSqlServer(
     throw new InvalidOperationException("Connection string not found")));
 
 
+builder.Services.AddAuthorization();
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

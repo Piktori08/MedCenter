@@ -2,28 +2,32 @@
 @{
     ViewData["Title"] = "Doctors";
 }
-<a class="btn btn-primary" asp-action="Create">Add Doctor</a>
+<a class="btn btn-primary m-5" asp-action="Create">Add Doctor</a>
 <table class="table table-success table-striped-columns">
     <thead>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Age</th>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var d in Model)
         {
-            <td>@d.Id</td>
-            <td>@d.Name</td>
-            <td>@d.Age</td>
+            <tr>
+                <td>@d.Id</td>
+                <td>@d.Name</td>
+                <td>@d.Age</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@d.Id" class="btn btn-outline-secondary">
+                    Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@d.Id" class="btn btn-outline-secondary">
+                    Delete
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-@foreach (var d in Model)
-{
-    <a>
-        <td asp-for="Edit" asp-route="@d.Id">Edit</td>
-    </a>
-    <a>
-        <td asp-for="Delete" asp-route="@d.Id">Delete</td>
-    </a>
-}
