@@ -1,0 +1,19 @@
+﻿@model DoctorForCreation
+@{
+    ViewData["Title"] = "Create";
+}
+<a class="btn btn-primary" asp-action="Index">Back to List</a>
+<h2>Create Doctor</h2>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label">Age</label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

@@ -15,8 +15,15 @@
             <td>@d.Id</td>
             <td>@d.Name</td>
             <td>@d.Age</td>
-            <a><td asp-for="Edit" asp-route="@d.Id">Edit</td></a>
-            <a><td asp-for="Delete" asp-route="@d.Id">Delete</td></a>
         }
     </tbody>
 </table>
+@foreach (var d in Model)
+{
+    <a>
+        <td asp-for="Edit" asp-route="@d.Id">Edit</td>
+    </a>
+    <a>
+        <td asp-for="Delete" asp-route="@d.Id">Delete</td>
+    </a>
+}

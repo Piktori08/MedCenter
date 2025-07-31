@@ -36,5 +36,38 @@ namespace Med_Center.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            var model = new DoctorForEdit()
+            {
+                Id = doctor.Id,
+                Name = doctor.Name,
+                Age = doctor.Age
+            };
+            return View(model);
+        }
+        [HttpPost]
+
+        public async Task<ActionResult> Edit(DoctorForEdit model)
+        {
+            var doctors = new Doctor()
+            {
+                Id = model.Id,
+                Age = model.Age,
+                Name = model.Name,
+            };
+            await _context.Doctors.AddAsync(doctors);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        public async Task<ActionResult> Delete(int id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            _context.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }

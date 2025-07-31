@@ -1,0 +1,33 @@
+﻿@model List<Med_Center.Data.Patient>
+@{
+    ViewData["Title"] = "Patients";
+}
+<a class="btn btn-primary" asp-action="Create">Add Patient</a>
+<table class="table table-success table-striped-columns">
+    <thead>
+        <th>Id</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Age</th>
+        <th>Doctor</th>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+        <td>@d.Id</td>
+        <td>@d.FirstName</td>
+        <td>@d.LastName</td>
+        <td>@d.Age</td>
+        <td>@d.Doctor?.Name</td>
+        }
+    </tbody>
+</table>
+@foreach(var d in Model)
+{
+<a>
+    <td asp-for="Edit" asp-route="@d.Id">Edit</td>
+</a>
+<a>
+    <td asp-for="Delete" asp-route="@d.Id">Delete</td>
+</a>
+    }

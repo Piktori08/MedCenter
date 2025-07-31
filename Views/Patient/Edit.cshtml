@@ -1,0 +1,35 @@
+﻿@model PatientForEdit
+@{
+    ViewData["Title"] = "Patient";
+}
+<a class="btn btn-primary" asp-action="Index">Back to List</a>
+<h2>Edit Patient</h2>
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label">Age</label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Doctor</label>
+        <select asp-for="SelectedDoctorId" class="form-select">
+            @foreach (var d in Model.Doctors)
+            {
+                var isSelected = d.Id == Model.SelectedDoctorId;
+                <option selected="@isSelected" value="@d.Id" >@d.Name</option>
+            }
+        </select>
+        <span asp-validation-for="SelectedDoctorId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

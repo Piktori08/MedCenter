@@ -4,7 +4,6 @@ using Med_Center.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MedCenterContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("MedCenterContext") ??
     throw new InvalidOperationException("Connection string not found")));
-builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
