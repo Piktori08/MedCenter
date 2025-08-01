@@ -1,0 +1,45 @@
+﻿@model AppointmentForEdit
+@{
+    ViewData["Title"] = "Edit";
+}
+<a class="btn btn-primary" asp-action="Index">Back to List</a>
+<h2>Edit Appointment</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="No" />
+    <div class="mb-3">
+        <label class="form-label">Doctor</label>
+        <select asp-for="DoctorId" class="form-select">
+            @foreach (var d in Model.Doctors)
+            {
+                var isSelected = d.Id == Model.SelectedDoctorId;
+                <option selected="@isSelected" value="@d.Id">@d.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Patient</label>
+        <select asp-for="PatientId" class="form-select">
+            @foreach (var d in Model.Patients)
+            {
+                var isSelected = d.Id == Model.SelectedPatientId;
+                <option value="@d.Id">@d.FirstName @d.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input asp-for="Date" id="aDate" class="form-control" type="text" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize flatpickr for the date input
+            flatpickr("#aDate", {
+                dateFormat: "d/m/Y",
+            });
+        });
+    </script>
+}

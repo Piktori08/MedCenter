@@ -12,20 +12,20 @@ namespace Med_Center.Controllers
         {
             _context = context;
         }
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var doctors = await _context.Doctors.ToListAsync();
             return View(doctors);
         }
         [HttpGet]
-        public async Task <ActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             var model = new DoctorForCreation();
             return View(model);
         }
         [HttpPost]
         
-        public async Task <ActionResult> Create(DoctorForCreation model)
+        public async Task<IActionResult> Create(DoctorForCreation model)
         {
             var doctors = new Doctor()
             {
@@ -37,7 +37,7 @@ namespace Med_Center.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var doctor = await _context.Doctors.FindAsync(id);
             var model = new DoctorForEdit()
@@ -50,7 +50,7 @@ namespace Med_Center.Controllers
         }
         [HttpPost]
 
-        public async Task<ActionResult> Edit(DoctorForEdit model)
+        public async Task<IActionResult> Edit(DoctorForEdit model)
         {
             var doctors = new Doctor()
             {
@@ -58,11 +58,11 @@ namespace Med_Center.Controllers
                 Age = model.Age,
                 Name = model.Name,
             };
-            await _context.Doctors.AddAsync(doctors);
+            _context.Doctors.Update(doctors);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var doctor = await _context.Doctors.FindAsync(id);
             _context.Doctors.Remove(doctor);
