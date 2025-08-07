@@ -1,11 +1,11 @@
-using System.Data.Common;
-
-using System.Linq;
-using System.Diagnostics;
 using Med_Center.Data;
 using Med_Center.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Med_Center.Controllers
 {
@@ -22,14 +22,12 @@ namespace Med_Center.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var appointments = await _context.Appointments.ToListAsync();
-            ViewBag.Appointments = appointments;
-            var dMax = appointments.GroupBy(a => a.DoctorId).OrderByDescending(g => g.Count()).FirstOrDefault()?.Key;
-            var doktori = await _context.Doctors.FindAsync(dMax);
-            ViewBag.doktoriName = doktori?.Name;
-            var pMax = appointments.GroupBy(a => a.PatientId).OrderByDescending(g => g.Count()).FirstOrDefault()?.Key;
-            var pacienti = await _context.Patients.FindAsync(pMax);
-            ViewBag.pacientName = pacienti?.FirstName + " " + pacienti?.LastName;
+            var Doctors = await _context.Doctors.ToListAsync();
+            var Patients = await _context.Patients.ToListAsync();
+            var dMax = Doctors.Max(d => d.AppointmentCount);
+            var docs = Doctors.Where(d => d.AppointmentCount == dMax).ToList();
+            ViewBag.Doctors = docs;
+
             return View();
         }
 

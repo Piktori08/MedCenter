@@ -9,7 +9,7 @@ namespace Med_Center.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-
+        public int? AppointmentCount { get; set; }
         [ForeignKey("DoctorId")]
         public int? DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }

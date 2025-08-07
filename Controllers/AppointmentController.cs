@@ -3,7 +3,7 @@ using Med_Center.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-
+using Med_Center.Models;
 namespace Med_Center.Controllers
 {
     public class AppointmentController : Controller
@@ -26,32 +26,39 @@ namespace Med_Center.Controllers
             var model = new AppointmentForCreation();
             model.Doctors = await _context.Doctors.ToListAsync();
             model.Patients = await _context.Patients.ToListAsync();
-
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(AppointmentForCreation model)
         {
-            var dName = await _context.Doctors.Where(d => d.Id == model.DoctorId).Select(d => d.Name).FirstOrDefaultAsync();
-            var pName = await _context.Patients.Where(d => d.Id == model.PatientId).Select(d => d.FirstName + " " + d.LastName).FirstOrDefaultAsync();
+            var dName = await _context.Doctors.Where(d => d.Id == model.DoctorId).FirstOrDefaultAsync();
+            var pName = await _context.Patients.Where(d => d.Id == model.PatientId).FirstOrDefaultAsync();
 
             var appointment = new Appointment()
             {
                 No = "",
                 Date = DateTime.ParseExact(model.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                 DoctorId = model.DoctorId,
-                DoctorName = dName!,
+                DoctorName = dName?.Name,
                 PatientId = model.PatientId,
-                PatientName = pName!,
+                PatientName = pName?.FirstName + " " + pName?.LastName,
             };
-
+            
             await _context.Appointments.AddAsync(appointment);
             await _context.SaveChangesAsync();
 
             appointment.No = $"{appointment.Id}-appointment";
 
             _context.Appointments.Update(appointment);
+            await _context.SaveChangesAsync();
+
+            dName.AppointmentCount += 1;
+            _context.Doctors.Update(dName);
+            await _context.SaveChangesAsync();
+
+            pName.AppointmentCount += 1;
+            _context.Patients.Update(pName);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
@@ -108,5 +115,5 @@ namespace Med_Center.Controllers
 
             return RedirectToAction("Index");
         }
+        }
     }
-}
