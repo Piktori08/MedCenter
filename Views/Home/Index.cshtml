@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var docEmri = ViewBag.doktoriName;
+    var pacEmri = ViewBag.pacientName;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2></h2>
+    <h2>The patient with the most visits is @pacEmri</h2>
 </div>

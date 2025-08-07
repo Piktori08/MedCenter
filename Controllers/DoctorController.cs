@@ -2,6 +2,7 @@
 using Med_Center.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Med_Center.Controllers;
 
 namespace Med_Center.Controllers
 {
@@ -48,6 +49,7 @@ namespace Med_Center.Controllers
             };
             return View(model);
         }
+
         [HttpPost]
 
         public async Task<IActionResult> Edit(DoctorForEdit model)
@@ -60,8 +62,20 @@ namespace Med_Center.Controllers
             };
             _context.Doctors.Update(doctors);
             await _context.SaveChangesAsync();
+
+            var appointmentsToUpdate = await _context.Appointments
+                .Where(a => a.DoctorId == model.Id)
+                .ToListAsync();
+
+            foreach (var appointment in appointmentsToUpdate)
+            {
+                appointment.DoctorName = model.Name;
+            }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Delete(int id)
         {
             var doctor = await _context.Doctors.FindAsync(id);

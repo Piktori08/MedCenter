@@ -64,8 +64,21 @@ namespace Med_Center.Controllers
                 Age = model.Age,
                 DoctorId = model.SelectedDoctorId
             };
+
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
+
+            var appointmentsToUpdate = await _context.Appointments
+                .Where(a => a.PatientId == model.Id)
+                .ToListAsync();
+
+            foreach (var appointment in appointmentsToUpdate)
+            {
+                appointment.PatientName = model.FirstName + " " + model.LastName;
+            }
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
         public async Task<ActionResult> Delete(int id)
